@@ -10,7 +10,8 @@ PUBLISH_INTERVAL = 0.1  # seconds
 # Game Settings
 WINDOW_SIZE = 600
 CELL_SIZE = 20
-FPS = 10
+FPS = 60
+GRID_SIZE = WINDOW_SIZE // CELL_SIZE  # This will give you the number of grid cells
 
 
 # Player info

@@ -15,18 +15,16 @@ direction = [1, 0]
 running = True
 
 last_publish_time = 0
-
+PUBLISH_INTERVAL = 0.1  # seconds
 start_mqtt()
 
+last_time = time.time()  # Add this at the top of the game loop
 while running:
+    # Calculate delta_time (time elapsed since last frame)
+    current_time = time.time()
+    delta_time = current_time - last_time
+    last_time = current_time
     screen.fill((0, 0, 0))
-    now = time.time()
-    timeout_ids = [
-        pid for pid, pdata in players.items() if now - pdata.get("time", 0) > 5
-    ]
-    for pid in timeout_ids:
-        print(f"[SYNC] Removing inactive player {pid}")
-        del players[pid]
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -44,7 +42,10 @@ while running:
     elif keys[pygame.K_q]:
         running = False
 
-    snake = move_snake(snake, direction)
+    # Move the snake normally
+    snake = move_snake(snake, direction, delta_time)
+
+    # Publish the snake state
     if time.time() - last_publish_time >= PUBLISH_INTERVAL:
         send_snake_state(snake)
         last_publish_time = time.time()

@@ -32,7 +32,14 @@ def on_message(client, userdata, msg):
         msg_json = json.loads(payload)
         snake = msg_json.get("snake")
         timestamp = msg_json.get("time", 0)
-        players[other_id] = {"snake": snake, "time": timestamp}
+        if other_id not in players:
+            players[other_id] = {"history": []}
+
+        players[other_id]["history"].append({"time": timestamp, "snake": snake})
+
+        # Keep only the last 2 updates
+        players[other_id]["history"] = players[other_id]["history"][-2:]
+
         # print(f"[MQTT] Received from {other_id} at {timestamp}: {snake}")
     except Exception as e:
         print("[MQTT] Error parsing:", e)
