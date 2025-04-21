@@ -17,7 +17,7 @@
   ```
 - Restart your shell
 - Create the env
-  - `pyenv virtualenv 3.13.3 slither-mqtt 
+  - `pyenv virtualenv 3.13.3 slither-mqtt`
 - Activate the env
   - `pyenv activate slither-mqtt` # To deactivate replace with activate.
 - Install requirements
