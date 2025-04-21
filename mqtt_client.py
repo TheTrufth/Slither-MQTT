@@ -1,4 +1,5 @@
 import json
+import time
 import paho.mqtt.client as mqtt
 from config import BROKER, PORT, TOPIC_PREFIX, PLAYER_ID
 
@@ -28,14 +29,17 @@ def on_message(client, userdata, msg):
         return
 
     try:
-        data = json.loads(payload)
-        players[other_id] = data
+        msg_json = json.loads(payload)
+        snake = msg_json.get("snake")
+        timestamp = msg_json.get("time", 0)
+        players[other_id] = {"snake": snake, "time": timestamp}
+        # print(f"[MQTT] Received from {other_id} at {timestamp}: {snake}")
     except Exception as e:
         print("[MQTT] Error parsing:", e)
 
 
 def send_snake_state(snake):
-    payload = json.dumps(snake)
+    payload = json.dumps({"snake": snake, "time": time.time()})
     client.publish(f"{TOPIC_PREFIX}{PLAYER_ID}", payload)
 
 

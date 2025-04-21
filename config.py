@@ -5,6 +5,7 @@ import hashlib
 BROKER = "localhost"
 PORT = 1883
 TOPIC_PREFIX = "slither/players/"
+PUBLISH_INTERVAL = 0.1  # seconds
 
 # Game Settings
 WINDOW_SIZE = 600

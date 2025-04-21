@@ -18,8 +18,9 @@ def draw_snake(screen, snake, color):
 
 
 def draw_all_players(screen, all_players):
-    for pid, segs in all_players.items():
+    for pid, player in all_players.items():
         if pid == PLAYER_ID:
-            continue  # Skip self — already drawn
+            continue
         color = consistent_color(pid)
-        draw_snake(screen, segs, color)
+        snake = player.get("snake", [])
+        draw_snake(screen, snake, color)
