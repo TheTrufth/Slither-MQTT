@@ -1,6 +1,6 @@
 import pygame
 from config import *
-from mqtt_client import start_mqtt, send_snake_state, players
+from mqtt_client import start_mqtt, send_snake_state, players, send_disconnect
 from snake import move_snake
 from render import draw_snake, draw_all_players
 
@@ -31,6 +31,8 @@ while running:
         direction = [0, -1]
     elif keys[pygame.K_DOWN] and direction != [0, -1]:
         direction = [0, 1]
+    elif keys[pygame.K_q]:
+        running = False
 
     snake = move_snake(snake, direction)
     send_snake_state(snake)
@@ -41,4 +43,5 @@ while running:
     pygame.display.flip()
     clock.tick(FPS)
 
+send_disconnect()
 pygame.quit()
